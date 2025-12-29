@@ -18,7 +18,7 @@ type TabItem = {
 const tabs: TabItem[] = [
   { title: "熱門", path: "/" },
   { title: "影片", path: "/video" },
-  { title: "遊戲", path: "" },
+  { title: "遊戲", path: "/games" },
   { title: "競技", path: "" },
   { title: "科技", path: "" },
   { title: "生活", path: "" },

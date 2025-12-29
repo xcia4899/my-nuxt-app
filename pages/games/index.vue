@@ -1,19 +1,18 @@
 <template>
   <div>
-    <h2>影片</h2>
+    <h2>遊戲</h2>
   </div>
 
-  <van-grid :column-num="2" :gutter="16" square>
-  <van-grid-item v-for="item in list" :key="item.id"  >
+  <van-grid :column-num="3" :gutter="4" square>
+  <van-grid-item v-for="item in list" :key="item.id">
     <van-image
       :src="item.image"
       width="100%"
       height="140"
       fit="cover"
       radius="8"
-     
     />
-    <div class="title" >{{ item.title }}</div>
+    <div class="title">{{ item.title }}</div>
   </van-grid-item>
 </van-grid>
 
