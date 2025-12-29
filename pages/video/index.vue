@@ -1,8 +1,11 @@
 <template>
+  
   <div>
-    <h2>影片頁</h2>
+    <h2>影片</h2>
    
   </div>
+ 
+  <NuxtPage />
 </template>
 
 <script setup lang="ts"></script>
