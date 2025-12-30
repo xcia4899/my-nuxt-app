@@ -1,27 +1,19 @@
+
 <template>
   <div>
-    <h2>遊戲(後端資料驅動)</h2>
+    <h2>影片(後端資料驅動)</h2>
 
-    <div style="display: flex; gap: 8px; margin: 12px 0;">
-      <van-button type="primary" :loading="pending" @click="addVideo">
-        新增
-      </van-button>
-      <van-button type="warning" :loading="pending" @click="editVideo">
-        更新 id=1
-      </van-button>
-      <van-button type="danger" :loading="pending" @click="removeVideo">
-        刪除 id=2
-      </van-button>
-      <van-button :loading="pending" @click="reset">
-        資料重置
-      </van-button>
+    <div style="display: flex; gap: 8px; margin: 12px 0">
+      <van-button  type="primary" @click="addVideo"> 新增 </van-button>
+
+      <van-button  @click="reset"> 資料重置 </van-button>
     </div>
 
     <div v-if="error" style="color: red;">
       讀取失敗：{{ error }}
     </div>
 
-    <van-grid :column-num="3" :gutter="4" square>
+    <van-grid :column-num="2" :gutter="4">
       <van-grid-item v-for="item in list" :key="item.id">
         <van-image
           :src="item.url"
@@ -31,11 +23,18 @@
           radius="8"
         />
         <div class="title">{{ item.title }}</div>
+        <div class="btns">
+          <van-button size="small" type="warning" @click="editVideo(item.id)">
+            <span class="btn-text"> 更新</span>
+          </van-button>
+          <van-button size="small" type="danger" @click="removeVideo(item.id)">
+            <span class="btn-text"> 刪除</span>
+          </van-button>
+        </div>
       </van-grid-item>
     </van-grid>
   </div>
 </template>
-
 <script setup lang="ts">
 import type { Video } from "@/database/videoSeed";
 import { useVideoApi } from "@/composables/useVideoApi";
@@ -62,12 +61,13 @@ const addVideo = async () => {
   }
 };
 
-const editVideo = async () => {
+const editVideo = async (id:number) => {
   try {
+    const item = Date.now();
     await updateVideo({
-      id: 1,
-      title: "影片 A（更新）",
-      url: "https://picsum.photos/400/300?updated",
+      id: id,
+      title: `圖片 ${id}（更新）`,
+      url:  `https://picsum.photos/400/300?updated=${item}`,
     });
     await refresh();
   } catch (err) {
@@ -75,14 +75,15 @@ const editVideo = async () => {
   }
 };
 
-const removeVideo = async () => {
+const removeVideo = async (id:number) => {
   try {
-    await deleteVideo(2);
+    await deleteVideo(id);
     await refresh();
   } catch (err) {
     console.error("刪除失敗", err);
   }
 };
+
 const reset = async () => {
   try {
     await resetVideos(); // 重製資料到 seed
@@ -96,7 +97,16 @@ const reset = async () => {
 <style scoped>
 .title {
   margin-top: 6px;
-  font-size: 14px;
+  font-size: 18px;
   line-height: 1.2;
+  margin: 12px 0;
+}
+.btns {
+  display: flex;
+  gap: 8px;
+
+  .btn-text {
+    font-size: 12px;
+  }
 }
 </style>

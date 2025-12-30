@@ -2,26 +2,17 @@
   <div>
     <h2>影片(本地資料，無後端)</h2>
 
-    <div style="display: flex; gap: 8px; margin: 12px 0;">
-      <van-button type="primary"  @click="addVideo">
-        新增
-      </van-button>
-      <van-button type="warning"  @click="editVideo">
-        更新 id=1
-      </van-button>
-      <van-button type="danger"  @click="removeVideo">
-        刪除 id=2
-      </van-button>
-      <van-button  @click="reset">
-        資料重置
-      </van-button>
+    <div style="display: flex; gap: 8px; margin: 12px 0">
+      <van-button  type="primary" @click="addVideo"> 新增 </van-button>
+
+      <van-button  @click="reset"> 資料重置 </van-button>
     </div>
 
     <!-- <div v-if="error" style="color: red;">
       讀取失敗：{{ error }}
     </div> -->
 
-    <van-grid :column-num="3" :gutter="4" square>
+    <van-grid :column-num="2" :gutter="4">
       <van-grid-item v-for="item in list" :key="item.id">
         <van-image
           :src="item.url"
@@ -31,6 +22,14 @@
           radius="8"
         />
         <div class="title">{{ item.title }}</div>
+        <div class="btns">
+          <van-button size="small" type="warning" @click="editVideo(item.id)">
+            <span class="btn-text"> 更新</span>
+          </van-button>
+          <van-button size="small" type="danger" @click="removeVideo(item.id)">
+            <span class="btn-text"> 刪除</span>
+          </van-button>
+        </div>
       </van-grid-item>
     </van-grid>
   </div>
@@ -47,38 +46,43 @@ import { useVideoLocal } from "@/composables/useVideoLocal";
 // );
 
 // Action：寫入交給 useVideoApi（薄封裝）
-const {videos:list, createVideo, updateVideo, deleteVideo ,resetVideos } = useVideoLocal();
+const {
+  videos: list,
+  createVideo,
+  updateVideo,
+  deleteVideo,
+  resetVideos,
+} = useVideoLocal();
 
 const addVideo = async () => {
   try {
+    
     await createVideo({
       id: Date.now(),
       title: "新影片",
       url: "https://picsum.photos/400/300?random",
     });
-    
   } catch (err) {
     console.error("新增失敗", err);
   }
 };
 
-const editVideo = async () => {
+const editVideo = async (id:number) => {
   try {
+    const item = Date.now();
     await updateVideo({
-      id: 1,
-      title: "影片 A（更新）",
-      url: "https://picsum.photos/400/300?updated",
+      id: id,
+      title: `圖片 ${id}（更新）`,
+      url:  `https://picsum.photos/400/300?updated=${item}`,
     });
- 
   } catch (err) {
     console.error("更新失敗", err);
   }
 };
 
-const removeVideo = async () => {
+const removeVideo = async (id:number) => {
   try {
-    await deleteVideo(2);
-  
+    await deleteVideo(id);
   } catch (err) {
     console.error("刪除失敗", err);
   }
@@ -86,7 +90,6 @@ const removeVideo = async () => {
 const reset = async () => {
   try {
     await resetVideos(); // 重製資料到 seed
-   
   } catch (err) {
     console.error("重製失敗", err);
   }
@@ -96,7 +99,16 @@ const reset = async () => {
 <style scoped>
 .title {
   margin-top: 6px;
-  font-size: 14px;
+  font-size: 18px;
   line-height: 1.2;
+  margin: 12px 0;
+}
+.btns {
+  display: flex;
+  gap: 8px;
+
+  .btn-text {
+    font-size: 12px;
+  }
 }
 </style>
