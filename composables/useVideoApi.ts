@@ -19,6 +19,7 @@ export const useVideoApi = () => {
       method: "DELETE",
       body: { id }, 
     });
+  const resetVideos = () => api<Video[]>("/api/video.reset", { method: "POST" });
 
-  return { getVideos, createVideo, updateVideo, deleteVideo };
+  return { getVideos, createVideo, updateVideo, deleteVideo ,resetVideos};
 };

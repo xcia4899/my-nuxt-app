@@ -12,8 +12,8 @@
       <van-button type="danger" :loading="pending" @click="removeVideo">
         刪除 id=2
       </van-button>
-      <van-button :loading="pending" @click="refresh">
-        重新抓取
+      <van-button :loading="pending" @click="reset">
+        資料重置
       </van-button>
     </div>
 
@@ -47,7 +47,7 @@ const { data: list, pending, error, refresh } = await useFetch<Video[]>(
 );
 
 // Action：寫入交給 useVideoApi（薄封裝）
-const { createVideo, updateVideo, deleteVideo } = useVideoApi();
+const { createVideo, updateVideo, deleteVideo ,resetVideos } = useVideoApi();
 
 const addVideo = async () => {
   try {
@@ -81,6 +81,14 @@ const removeVideo = async () => {
     await refresh();
   } catch (err) {
     console.error("刪除失敗", err);
+  }
+};
+const reset = async () => {
+  try {
+    await resetVideos(); // 重製資料到 seed
+    await refresh();     // 重新抓取顯示
+  } catch (err) {
+    console.error("重製失敗", err);
   }
 };
 </script>
