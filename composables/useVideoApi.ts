@@ -5,18 +5,18 @@ export const useVideoApi = () => {
  
   const api = useApi();
 
-  const getVideos = () => api<Video[]>("/api/video");
+  const getVideos = () => api<Video[]>("/api/games");
   
   const createVideo = (body: Video) =>
-    api<Video>("/api/video", { method: "POST", body });
+    api<Video>("/api/games", { method: "POST", body });
 
   const updateVideo = (body: Video) =>
-    api<Video>("/api/video", { method: "PUT", body });
+    api<Video>("/api/games", { method: "PUT", body });
 
   const deleteVideo = (id: number) =>
-    api(`/api/video/${id}`, { method: "DELETE" });
+    api(`/api/games/${id}`, { method: "DELETE" });
     
-  const resetVideos = () => api<Video[]>("/api/video/index.reset", { method: "POST" });
+  const resetVideos = () => api<Video[]>("/api/games/index.reset", { method: "POST" });
 
   return { getVideos, createVideo, updateVideo, deleteVideo ,resetVideos};
 };

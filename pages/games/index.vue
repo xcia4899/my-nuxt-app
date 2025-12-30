@@ -42,7 +42,7 @@ import { useVideoApi } from "@/composables/useVideoApi";
 
 // GET：列表狀態交給 useFetch（含 SSR / pending / error / refresh）
 const { data: list, pending, error, refresh } = await useFetch<Video[]>(
-  "/api/video",
+  "/api/games",
   { default: () => [] }
 );
 
