@@ -39,15 +39,18 @@
 import type { Video } from "@/database/videoSeed";
 import { useVideoApi } from "@/composables/useVideoApi";
 
-// GET：列表狀態交給 useFetch（含 SSR / pending / error / refresh）
-const { data: list, pending, error, refresh } = await useFetch<Video[]>(
+// 用 useFetch 讀取資料（狀態交給 useFetch）
+const { data, pending, error, refresh } = await useFetch<Video[]>(
   "/api/games",
   { default: () => [] }
 );
 
-// Action：寫入交給 useVideoApi（薄封裝）
-const { createVideo, updateVideo, deleteVideo ,resetVideos } = useVideoApi();
+const list = computed(() => data.value ?? []);
 
+// 寫入操作交給 API composable
+const { createVideo, updateVideo, deleteVideo, resetVideos } = useVideoApi();
+
+// 新增影片
 const addVideo = async () => {
   try {
     await createVideo({
@@ -57,42 +60,46 @@ const addVideo = async () => {
     });
     await refresh();
   } catch (err) {
-    console.error("新增失敗", err);
+    console.error("新增影片失敗", err);
   }
 };
 
-const editVideo = async (id:number) => {
+// 更新影片
+const editVideo = async (id: number) => {
   try {
-    const item = Date.now();
+    const t = Date.now();
     await updateVideo({
-      id: id,
+      id,
       title: `圖片 ${id}（更新）`,
-      url:  `https://picsum.photos/400/300?updated=${item}`,
+      url: `https://picsum.photos/400/300?updated=${t}`,
     });
     await refresh();
   } catch (err) {
-    console.error("更新失敗", err);
+    console.error("更新影片失敗", err);
   }
 };
 
-const removeVideo = async (id:number) => {
+// 刪除影片
+const removeVideo = async (id: number) => {
   try {
     await deleteVideo(id);
     await refresh();
   } catch (err) {
-    console.error("刪除失敗", err);
+    console.error("刪除影片失敗", err);
   }
 };
 
+// 重置資料
 const reset = async () => {
   try {
-    await resetVideos(); // 重製資料到 seed
-    await refresh();     // 重新抓取顯示
+    await resetVideos();
+    await refresh();
   } catch (err) {
-    console.error("重製失敗", err);
+    console.error("重置影片失敗", err);
   }
 };
 </script>
+
 
 <style scoped>
 .title {

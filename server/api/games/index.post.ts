@@ -1,8 +1,7 @@
-// server/api/video.post.ts
-import videos from "@/database/video";
+import { videoRepo } from "@/database/video";
+import type { Video } from "@/database/videoSeed";
 
 export default defineEventHandler(async (event) => {
-  const body = await readBody(event);
-  videos.push(body);
-  return body;
+  const body = await readBody<Video>(event);
+  return videoRepo.addVideo(body);
 });

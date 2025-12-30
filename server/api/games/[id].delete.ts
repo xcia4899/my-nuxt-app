@@ -1,11 +1,11 @@
-// server/api/video/[id].delete.ts
-import videos from "@/database/video";
+import { videoRepo } from "@/database/video";
 
+// DELETE /api/video/:id
+// 依照路由參數 id 刪除指定影片
 export default defineEventHandler((event) => {
+  // 從路由參數取得 id，並轉成 number
   const id = Number(getRouterParam(event, "id"));
 
-  const index = videos.findIndex((v) => v.id === id);
-  if (index !== -1) videos.splice(index, 1);
-
-  return { ok: true, id };
+  // 呼叫資料層刪除影片並回傳結果
+  return videoRepo.deleteVideo(id);
 });

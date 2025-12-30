@@ -1,9 +1,24 @@
-// server/api/video.put.ts
-import videos from "@/database/video";
+import { videoRepo } from "@/database/video";
+import type { Video } from "@/database/videoSeed";
 
+// PUT /api/video
+// 更新影片資料
 export default defineEventHandler(async (event) => {
-  const body = await readBody(event);
-  const index = videos.findIndex(v => v.id === body.id);
-  if (index !== -1) videos[index] = body;
-  return body;
+  // 讀取請求 body（更新後的影片資料）
+  const body = await readBody<Video>(event);
+
+  // 呼叫資料層更新影片
+  const updated = videoRepo.updateVideo(body);
+
+  // 找不到影片時回傳 404
+  if (!updated) {
+    throw createError({
+      statusCode: 404,
+      statusMessage: "Video not found",
+    });
+  }
+
+  // 回傳更新後的影片
+  return updated;
 });
+
