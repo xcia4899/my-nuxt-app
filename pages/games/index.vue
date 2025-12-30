@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>遊戲</h2>
+    <h2>遊戲(後端資料驅動)</h2>
 
     <div style="display: flex; gap: 8px; margin: 12px 0;">
       <van-button type="primary" :loading="pending" @click="addVideo">
@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Video } from "@/database/video";
+import type { Video } from "@/database/videoSeed";
 import { useVideoApi } from "@/composables/useVideoApi";
 
 // GET：列表狀態交給 useFetch（含 SSR / pending / error / refresh）

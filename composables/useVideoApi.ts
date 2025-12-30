@@ -1,13 +1,12 @@
 // composables/useVideoApi.ts
-import type { Video } from "@/database/video";
+import type { Video } from "@/database/videoSeed";
 
 export const useVideoApi = () => {
-  const config = useRuntimeConfig();
-  const baseURL = (config.public.videoApiBaseURL || "") as string;
-
-  const api = $fetch.create({ baseURL });
+ 
+  const api = useApi();
 
   const getVideos = () => api<Video[]>("/api/video");
+  
   const createVideo = (body: Video) =>
     api<Video>("/api/video", { method: "POST", body });
 
@@ -15,11 +14,9 @@ export const useVideoApi = () => {
     api<Video>("/api/video", { method: "PUT", body });
 
   const deleteVideo = (id: number) =>
-    api<{ ok: boolean; id: number }>("/api/video", {
-      method: "DELETE",
-      body: { id }, 
-    });
-  const resetVideos = () => api<Video[]>("/api/video.reset", { method: "POST" });
+    api(`/api/video/${id}`, { method: "DELETE" });
+    
+  const resetVideos = () => api<Video[]>("/api/video/index.reset", { method: "POST" });
 
   return { getVideos, createVideo, updateVideo, deleteVideo ,resetVideos};
 };
