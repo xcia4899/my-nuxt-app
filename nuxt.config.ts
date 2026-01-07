@@ -8,7 +8,8 @@ export default defineNuxtConfig({
   modules: ["@vant/nuxt"],
   runtimeConfig: {
     public: {
-      videoApiBaseURL: process.env.NUXT_PUBLIC_VIDEO_API_BASEURL || "",
+      videoApiBaseURL:  process.env.NUXT_PUBLIC_VIDEO_API_BASEURL ||
+      "https://video-backend-9bvi.onrender.com",
     },
   },
 });
