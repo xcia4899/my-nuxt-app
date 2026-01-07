@@ -3,11 +3,11 @@
     <h2>生活(render後端驅動)</h2>
 
     <div style="display: flex; gap: 8px; margin: 12px 0">
-      <van-button type="primary" :loading="pending" @click="addVideo">
+      <van-button type="primary"  @click="addVideo">
         新增
       </van-button>
 
-      <van-button :loading="pending" @click="reset">資料重置</van-button>
+      <van-button  @click="reset">資料重置</van-button>
     </div>
 
     <div v-if="errorMsg" style="color: red">讀取失敗：{{ errorMsg }}</div>

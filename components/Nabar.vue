@@ -17,12 +17,12 @@ type TabItem = {
 };
 const tabs: TabItem[] = [
   { title: "熱門", path: "/" },
-  { title: "影片", path: "/video" },
-  { title: "遊戲", path: "/games" },
-  { title: "生活", path: "/live" },
-  { title: "競技", path: "" },
-  { title: "科技", path: "" },
-  { title: "音樂", path: "" },
+  { title: "影片(本地資料)", path: "/video" },
+  { title: "遊戲(nuxt後端)", path: "/games" },
+  { title: "生活(render後端)", path: "/live" },
+  { title: "競技", path: "/" },
+  { title: "科技", path: "/video" },
+  { title: "音樂", path: "/live" },
 ];
 
 const active = ref(0);
