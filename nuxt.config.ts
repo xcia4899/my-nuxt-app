@@ -8,7 +8,7 @@ export default defineNuxtConfig({
   modules: ["@vant/nuxt"],
   runtimeConfig: {
     public: {
-      videoApiBaseURL: "", // 本地留空 = 同站 /api
+      videoApiBaseURL: process.env.NUXT_PUBLIC_VIDEO_API_BASEURL || "",
     },
   },
 });

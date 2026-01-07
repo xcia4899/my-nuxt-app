@@ -1,7 +1,7 @@
 
 <template>
   <div>
-    <h2>影片(後端資料驅動)</h2>
+    <h2>影片(Nuxt後端驅動)</h2>
 
     <div style="display: flex; gap: 8px; margin: 12px 0">
       <van-button  type="primary" @click="addVideo"> 新增 </van-button>

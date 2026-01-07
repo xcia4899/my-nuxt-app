@@ -44,7 +44,55 @@
 - 頁面內容依路由參數動態渲染
 
 ---
+架構
 
+前端：Nuxt（用 $fetch.create 統一呼叫 API）
+
+後端：Node + Express（Render Web Service）
+
+資料庫：Render Postgres
+
+連線方式：後端用 DATABASE_URL 環境變數連 DB
+
+Render 設定重點
+
+建立 Postgres（Region 與 Web Service 同區，例如 Singapore）
+
+Web Service（Node）
+
+Build Command：npm ci && npm run build
+
+Start Command：npm start
+
+Web Service → Environment Variables
+
+Key：DATABASE_URL
+
+Value：Postgres 的 Internal Database URL
+
+修改 env 後要 Save, rebuild, and deploy
+
+API 清單（後端）
+
+GET /health：健康檢查
+
+GET /api/videos：取得列表
+
+POST /api/videos：新增（body: Video）
+
+PUT /api/videos：更新（body: Video）
+
+DELETE /api/videos/:id：刪除
+
+POST /api/videos/reset：重置資料（回 seed）
+
+常見狀況
+
+Free 方案冷啟動：第一次呼叫可能會慢（服務在喚醒）
+
+如果看到 Missing DATABASE_URL env var：
+
+Web Service 沒設 DATABASE_URL 或 key 打錯（例如 DATABASE__URL）
 ## 環境需求
 
 - Node.js 18+（建議）
