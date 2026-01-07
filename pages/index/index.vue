@@ -1,63 +1,69 @@
 <template>
   <div>
     <h2>熱門影片</h2>
-  </div>
-  <van-grid :column-num="1" :gutter="8" >
-  <van-grid-item v-for="item in list" :key="item.id"  >
-    <van-image
-      :src="item.image"
-      width="100%"
-      height="140"
-      fit="cover"
-      radius="8"
-     
-    />
-    <div class="title" >{{ item.title }}</div>
-  </van-grid-item>
-</van-grid>
 
+    <van-list
+      v-model:loading="loading"
+      :finished="finished"
+      finished-text="没有更多了"
+      @load="onLoad"
+    >
+      <van-cell v-for="item in list" :key="item.id">
+        <div class="row">
+          <div class="title">{{ item.title }}</div>
+          <van-image :src="item.url" fit="cover" radius="8" />
+        </div>
+      </van-cell>
+    </van-list>
+  </div>
 </template>
 
 <script setup lang="ts">
-const list = [
-  {
-    id: 1,
-    title: "圖片一",
-    image: "https://fastly.jsdelivr.net/npm/@vant/assets/apple-1.jpeg",
-  },
-  {
-    id: 2,
-    title: "圖片二",
-    image: "https://fastly.jsdelivr.net/npm/@vant/assets/apple-2.jpeg",
-  },
-  {
-    id: 3,
-    title: "圖片三",
-    image: "https://fastly.jsdelivr.net/npm/@vant/assets/apple-3.jpeg",
-  },
-  {
-    id: 4,
-    title: "圖片四",
-    image: "https://fastly.jsdelivr.net/npm/@vant/assets/apple-4.jpeg",
-  },
-  {
-    id: 5,
-    title: "圖片五",
-    image: "https://fastly.jsdelivr.net/npm/@vant/assets/apple-5.jpeg",
-  },
-  {
-    id: 6,
-    title: "圖片六",
-    image: "https://fastly.jsdelivr.net/npm/@vant/assets/apple-6.jpeg",
-  },
-  {
-    id: 7,
-    title: "圖片七",
-    image: "https://fastly.jsdelivr.net/npm/@vant/assets/apple-7.jpeg",
-  },
- 
-];
+import type { Video } from "@/database/videoSeed";
+import { useVideoLocal } from "@/composables/useVideoLocal";
+const { indexVideos } = useVideoLocal();
 
+const list = ref<Video[]>([]);
+const loading = ref(false);
+const finished = ref(false);
+
+const pageSize = 6;
+
+const onLoad = () => {
+  setTimeout(() => {
+    //初始為0
+    const start = list.value.length;
+    const next = indexVideos.value.slice(start, start + pageSize);
+
+    list.value.push(...next);
+
+    loading.value = false;
+
+    if (list.value.length >= indexVideos.value.length) {
+      finished.value = true;
+    }
+  }, 1000);
+};
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.row {
+  display: flex;
+  .van-image {
+    width: 60%;
+    height: 280px;
+    cursor: pointer;
+    @media (max-width: 600px) {
+      width: 50%;
+      height: 140px;
+    }
+  }
+  .title {
+    width: 40%;
+    text-align: left;
+    @media (max-width: 600px) {
+      width: 50%;
+    }
+  }
+}
+</style>

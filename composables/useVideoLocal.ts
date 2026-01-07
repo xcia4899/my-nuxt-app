@@ -1,9 +1,12 @@
-import { videoSeed, type Video } from "@/database/videoSeed";
+import { videoSeed ,indexSeed, type Video } from "@/database/videoSeed";
 
 export const useVideoLocal = () => {
   const videos = useState<Video[]>("videos", () => structuredClone(videoSeed));
 
-  const getVideos = () => videos.value;
+  const indexVideos = ref<Video[]>( structuredClone(indexSeed));
+
+  const getVideos = computed(() => videos.value)
+  const getIndexVideos = computed(() =>indexVideos.value)
 
   const createVideo = (body: Video) => {
     videos.value.push(body);
@@ -29,7 +32,9 @@ export const useVideoLocal = () => {
 
   return {
     videos,
+    indexVideos,
     getVideos,
+    getIndexVideos,
     createVideo,
     updateVideo,
     deleteVideo,
