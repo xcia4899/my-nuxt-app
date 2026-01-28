@@ -1,4 +1,4 @@
-# Nuxt 3 分類內容瀏覽專案（Vant 4）
+# Nuxt 3 分類內容瀏覽專案（Vant 4） [🔗 查看](https://xcia4899.github.io/my-nuxt-app/)
 
 本專案以 **Nuxt 3** 為核心框架，搭配 **Vant 4 UI 元件庫**，實作一個以「**資料驅動（Data-driven UI）**」為設計核心的分類內容瀏覽介面。
 
